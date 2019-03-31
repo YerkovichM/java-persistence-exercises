@@ -1,5 +1,6 @@
 package ua.procamp;
 
+import org.hibernate.Session;
 import ua.procamp.model.Author;
 import ua.procamp.model.Book;
 import ua.procamp.util.EntityManagerUtil;
@@ -269,5 +270,17 @@ public class AuthorBookMappingTest {
         assertThat(joinTable.inverseJoinColumns()[0].name(), equalTo("book_id"));
     }
 
+    @Test
+    public void testBookIsbnIsNaturalKey() {
+        Book book = createRandomBook();
+        emUtil.performWithinTx(entityManager -> entityManager.persist(book));
 
+        Book foundBook = emUtil.performReturningWithinTx(entityManager -> {
+            Session session = entityManager.unwrap(Session.class);
+            return session.bySimpleNaturalId(Book.class)
+                    .load(book.getIsbn());
+        });
+
+        assertThat(foundBook, equalTo(book));
+    }
 }
