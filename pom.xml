@@ -21,9 +21,43 @@
         <module>product-dao</module>
         <module>user-profile-db-initializer</module>
         <module>wall-street-db-initializer</module>
+        <module>account-dao</module>
+        <module>author-book</module>
+        <module>company-products</module>
+        <module>employee-profile</module>
+        <module>hello-jpa-entity</module>
+        <module>hello-persistence-xml</module>
+        <module>jpa-hibernate-exercises-model</module>
+        <module>jpa-hibernate-exercises-util</module>
+        <module>photo-comment-dao</module>
+        <module>query-helper</module>
     </modules>
 
     <dependencies>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.3.2.Final</version>
+        </dependency>
+
+        <!--Since JAXB APIs is no longer in default classpath in JDK 1.9 -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
