@@ -1,13 +1,30 @@
 package ua.procamp;
 
+import org.h2.jdbc.JdbcConnection;
+
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * {@link AccountDbInitializer} provides an API that allow to initialize (create) an Account table in the database
  */
 public class AccountDbInitializer {
     private DataSource dataSource;
+
+    private final static String SQL_QUERY = "CREATE TABLE account(" +
+            "    id bigint auto_increment," +
+            "    email varchar(255) not null," +
+            "    first_name varchar(255) not null," +
+            "    last_name varchar(255) not null," +
+            "    gender varchar(255) not null," +
+            "    birthday date not null," +
+            "    balance decimal(19,4)," +
+            "    creation_time timestamp not null default now()," +
+            "    constraint account_pk primary key (id)," +
+            "    constraint account_email_uq unique (email)" +
+            "); ";
 
     public AccountDbInitializer(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -28,6 +45,8 @@ public class AccountDbInitializer {
      * @throws SQLException
      */
     public void init() throws SQLException {
-        throw new UnsupportedOperationException("It's your job to make it work!"); // todo
+        try(Connection connection = dataSource.getConnection()){
+            Statement statement = connection.createStatement();
+        }
     }
 }

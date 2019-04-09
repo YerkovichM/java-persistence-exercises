@@ -1,3 +1,24 @@
+CREATE TABLE IF NOT EXISTS users
+(
+  id         bigint auto_increment,
+  first_name varchar(255) not null,
+  last_name  varchar(255) not null,
+  email      varchar(255) not null,
+  birthday   date         not null,
+  CONSTRAINT users_PK primary key (id),
+  CONSTRAINT users_email_AK unique (email)
+);
+
+CREATE TABLE IF NOT EXISTS profiles
+(
+  user_id      bigint,
+  city         VARCHAR(255),
+  job_position varchar(255),
+  company      varchar(255),
+  education    varchar(255),
+  constraint profiles_PK primary key (user_id),
+  constraint profiles_users_FK foreign key (user_id) references users
+);
 /*
 
 User profile database stores information about users and their work profiles.
