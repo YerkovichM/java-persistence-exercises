@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -40,4 +42,7 @@ public class Account {
 
     @Column(name = "balance")
     private BigDecimal balance = BigDecimal.ZERO.setScale(2);
+
+    @OneToMany(mappedBy = "holder")
+    private List<Card> cards = new ArrayList<>();
 }

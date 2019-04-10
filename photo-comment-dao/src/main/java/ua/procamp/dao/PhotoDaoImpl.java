@@ -1,8 +1,13 @@
 package ua.procamp.dao;
 
 import ua.procamp.model.Photo;
+import ua.procamp.model.PhotoComment;
+import ua.procamp.util.EntityManagerUtil;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -17,26 +22,42 @@ public class PhotoDaoImpl implements PhotoDao {
 
     @Override
     public void save(Photo photo) {
-        throw new UnsupportedOperationException("Just do it!"); // todo
+        EntityManagerUtil inTrans = new EntityManagerUtil(entityManagerFactory);
+        inTrans.performWithinTx(em -> em.persist(photo));
     }
 
     @Override
     public Photo findById(long id) {
-        throw new UnsupportedOperationException("Just do it!"); // todo
+        EntityManagerUtil inTrans = new EntityManagerUtil(entityManagerFactory);
+        return inTrans.performReturningWithinTx(em -> em.find(Photo.class, id));
     }
 
     @Override
     public List<Photo> findAll() {
-        throw new UnsupportedOperationException("Just do it!"); // todo
+        EntityManagerUtil inTrans = new EntityManagerUtil(entityManagerFactory);
+        return inTrans.performReturningWithinTx(em -> em.createQuery("select p from Photo p", Photo.class)
+                    .getResultList());
     }
 
     @Override
     public void remove(Photo photo) {
-        throw new UnsupportedOperationException("Just do it!"); // todo
+        EntityManagerUtil inTrans = new EntityManagerUtil(entityManagerFactory);
+        inTrans.performWithinTx(em -> {
+            Photo foundPhoto = em.merge(photo);
+            em.remove(foundPhoto);
+        });
     }
 
     @Override
     public void addComment(long photoId, String comment) {
-        throw new UnsupportedOperationException("Just do it!"); // todo
+        EntityManagerUtil inTrans = new EntityManagerUtil(entityManagerFactory);
+        inTrans.performWithinTx(em -> {
+            Photo photo = em.find(Photo.class, photoId);
+            PhotoComment photoComment = new PhotoComment();
+            photoComment.setPhoto(photo);
+            photoComment.setText(comment);
+            photoComment.setCreatedOn(LocalDateTime.now());
+            em.persist(photoComment);
+        });
     }
 }

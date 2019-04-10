@@ -34,7 +34,9 @@ public class QueryHelper {
         entityManager.getTransaction().begin();
         try{
             entityManager.setProperty(QueryHints.READ_ONLY, true);
-            return entityManagerConsumer.apply(entityManager);
+            T res = entityManagerConsumer.apply(entityManager);
+            entityManager.getTransaction().commit();
+            return res;
         }catch (Exception e){
             entityManager.getTransaction().rollback();
             throw new QueryHelperException("Error performing query. Transaction is rolled back" ,e);
