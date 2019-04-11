@@ -1,7 +1,5 @@
 package ua.procamp;
 
-import org.h2.jdbc.JdbcConnection;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -47,6 +45,7 @@ public class AccountDbInitializer {
     public void init() throws SQLException {
         try(Connection connection = dataSource.getConnection()){
             Statement statement = connection.createStatement();
+            statement.execute(SQL_QUERY);
         }
     }
 }
