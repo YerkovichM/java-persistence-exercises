@@ -1,10 +1,14 @@
 package ua.procamp.model;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
+import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -26,9 +30,37 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "book")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @NaturalId
+    @Column(nullable = false, unique = true)
     private String isbn;
-    private Set<Author> authors;
+
+    @Setter(AccessLevel.PRIVATE)
+    @ManyToMany(mappedBy = "books")
+    private Set<Author> authors = new HashSet<>();
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj){
+            return true;
+        }
+        if(!(obj instanceof Book)){
+            return false;
+        }
+        return Objects.equals(getIsbn(), ((Book) obj).getIsbn());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getIsbn());
+    }
 }
