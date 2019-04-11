@@ -1,5 +1,6 @@
 package ua.procamp.dao;
 
+import ua.procamp.exception.CompanyDaoException;
 import ua.procamp.model.Company;
 
 import javax.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class CompanyDaoImpl implements CompanyDao {
             return company;
         }catch (Exception ex){
             entityManager.getTransaction().getRollbackOnly();
-            throw ex;
+            throw new CompanyDaoException("Something went wong in transaction" ,ex);
         }finally {
             entityManager.close();
         }
