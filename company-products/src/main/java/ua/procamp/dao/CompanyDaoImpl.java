@@ -26,7 +26,7 @@ public class CompanyDaoImpl implements CompanyDao {
             return company;
         }catch (Exception ex){
             entityManager.getTransaction().getRollbackOnly();
-            throw new CompanyDaoException("Something went wong in transaction" ,ex);
+            throw new CompanyDaoException("Something went wrong in transaction", ex);
         }finally {
             entityManager.close();
         }
